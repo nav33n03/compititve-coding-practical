@@ -1,0 +1,44 @@
+---------------------------Leetcode 1760---------------------------
+
+class Solution {
+public:
+    int minimumSize(vector<int>& nums, int maxOperations) {
+        int l = 1;
+        int r = *max_element(nums.begin(), nums.end());
+        while(l <= r){
+            int mid = l + (r - l) / 2;
+            long long count = 0;
+            for(int num : nums){
+                count += (num - 1) / mid;
+            }
+            if(count > maxOperations){
+                l = mid + 1;
+            }else{
+                r = mid - 1;
+            }
+        }
+        return l;
+    }
+};
+
+---------------------------Leetcode 1665---------------------------
+
+class Solution {
+public:
+    static bool comp(vector<int>& a, vector<int>& b){
+        return ((a[1] - a[0]) > (b[1] - b[0]));
+    }
+    int minimumEffort(vector<vector<int>>& tasks) {
+        sort(tasks.begin(), tasks.end(), comp);
+        int energy = 0;
+        int req = 0;
+        for(auto& t : tasks){
+            if(req < t[1]){
+                energy += (t[1] - req);
+                req = t[1];
+            }
+            req -= t[0];
+        }
+        return energy;
+    }
+};
